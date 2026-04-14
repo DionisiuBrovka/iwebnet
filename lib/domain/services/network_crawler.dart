@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:inetweb/data/models/network_node.dart';
+
 class NetworkCrawler {
   final int _preCrawlDelay = 200;
-  final int _postCrawlDelay = 1000;
+  final int _postCrawlDelay = 400;
 
   bool _isAutoCrawl = false;
   Completer<void>? _stopCompleter;
@@ -12,7 +14,11 @@ class NetworkCrawler {
     log('Init', name: 'NetworkCrawler');
   }
 
-  Future<void> _proccesNode() async {
+  NetworkNode _selectNodeToProcces() {
+    throw UnimplementedError();
+  }
+
+  Future<void> _proccesNode(NetworkNode node) async {
     throw UnimplementedError();
   }
 
@@ -22,7 +28,8 @@ class NetworkCrawler {
     try {
       while (_isAutoCrawl) {
         await Future.delayed(Duration(milliseconds: _preCrawlDelay));
-        await _proccesNode();
+        final nodeToProcces = _selectNodeToProcces();
+        await _proccesNode(nodeToProcces);
         await Future.delayed(Duration(milliseconds: _postCrawlDelay));
       }
     } catch (e, st) {
